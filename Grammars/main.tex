@@ -86,7 +86,41 @@ The last two types of grammars are \textbf{context-sensitive} and \textbf{unrest
 Unrestricted grammars allow any production rules, and can thus model any patterns or structures. This is the highest level of the grammar hierarchy, and thus all grammars are unrestricted grammars. Both unrestricted and context-sensitive grammars are equivalent to \textbf{Turing machines}, which are a type of abstract automata that reads a rolling string of symbols, and manipulates them based on assigned rules.
 
 \subsection{Tree-adjoining grammars}
-Tree-adjoining grammars define rules to manipulate parse trees, rather than the string itself. In a context-free grammar, nonterminal symbols are replaced by nonterminal or terminal symbols, while in a tree-adjoining grammer, nodes of a parse tree are replaced by other trees (thus adjoining two trees). These grammars can be used to model pseudoknot structures in RNA, or direct repeats (repeat sequences which may have intervening sequences).
+Tree-adjoining grammars define rules to manipulate parse trees as well, rather than just the string itself. In the grammar hierarchy, they are more complex than context-free grammars, but less complex than context-sensitive grammars.  These grammars can be used to model pseudoknot structures in RNA, or direct repeats (repeat sequences which may have intervening sequences).
+
+\section{Automata}
+We've seen how there is a fundamental connection between grammars and automata, where each type of grammar corresponds to an equivalent automaton. Often times, an automaton can be used as a parser for the equivalent grammar. One example which have seen is a finite state machine parsing a regular grammar. 
+
+\begin{table}[h]
+\centering
+\caption{Grammars and equivalent automata}
+\label{tab:automata}
+\begin{tabular}{cc}
+\textbf{Grammar}  & \textbf{Automata}                      \\ \hline
+Unrestricted      & Turing machine                         \\
+Context-sensitive & Linear-bounded Turing machine          \\
+Context-free      & Finite-state machine w/ pushdown stack \\
+Regular           & Finite-state machine                  
+\end{tabular}
+\end{table}
+
+One detail to note: just as grammars form a hierarchy, so do the corresponding automata.\\[10pt]
+Over the course, we have discussed a few different algorithms for problems like sequence alignment, RNA folding prediction, and gene annotation. But these algorithms are also connected to grammars! 
+\begin{table}[h]
+\centering
+\caption{Grammars in bioinformatic algorithms}
+\label{tab:connect}
+\begin{tabular}{ll}
+\multicolumn{1}{c}{\textbf{Algorithm/Model}} & \multicolumn{1}{c}{\textbf{Grammar}} \\ \hline
+HMM (profile HMMs, phylogenetic HMMs, etc.)  & Regular                              \\
+Needleman-Wunsch, Smith-Waterman, Gotoh      & Regular (pair grammar)               \\
+Nussinov, McCaskill, Zuker                   & Context-free                         \\
+RNA folding w/ pseudoknots                   & Tree-adjoining                      
+\end{tabular}
+\end{table}
+
+Table \ref{tab:connect} summarizes how algorithms and models we've covered in previous notes are connected to formal grammars (and thus to automata as well).\\[10pt]
+In the case of dynamic alignment algorithms for pairwise alignment, we can model the algorithms with a \textbf{pair grammar}. These grammars (and automata) have two output tapes, which in the case of alignment, records the sequences and gaps. Pair grammars also appear in HMMs, where a \textbf{pair HMM} emits pairs of observable outputs.
 
 \section{Summary}
 Grammars and automata are closely related topics that form a framework in which to understand algorithms and models for strings (like biological sequences). Automata like finite state machines and HMMs define an underlying regular grammar which dictates the sequences being modeled. Context-free grammars represent stacked or nested structures like RNA sequences or phylogenetic trees, and thus algorithms like Nussinov or tree-building algorithms follow an underlying context-free grammar structure. Understanding these connections between automata, algorithms, and grammars allows us to develop better models and algorithms in computer science and bioinformatics.
