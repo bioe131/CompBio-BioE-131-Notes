@@ -57,7 +57,7 @@ This is a special case of the idea that $h(x)$ represents the number of bits nee
 Using the formula for entropy, we can calculate the number of bits needed to encode a base in a DNA sequence: $\log_2(4) = 2$. Thus for a sequence where each base is has an equal 1/4 probability, we need 2 bits per nucleotide in an ideal code. However, what if A's occur with probability 1/2, C with probability 1/4, and G and T with probabilities 1/8? We can then compress the string to use less than 2 bits per base!
 \begin{table}[h]
 \centering
-    \label{tab:code}
+    
     \begin{tabular}{l|llll}
     Symbol    & A   & C   & G   & T   \\ \hline
     $P(x)$    & 1/4 & 1/4 & 1/4 & 1/4 \\
@@ -68,7 +68,9 @@ Using the formula for entropy, we can calculate the number of bits needed to enc
     $L(x;CQ)$ & 1   & 2   & 3   & 3  
     \end{tabular}
     \caption{Encoding for uniform and non-uniform distributions}
+    \label{tab:code}
 \end{table}
+
 In table \ref{tab:code}, we see the standard binary code for $P(x)$, and a modified code for the non-uniform $Q(x)$. We assign more bits to the infrequent nucleotides (G and T), and less bits to A, since it appears the more frequent.
 \begin{figure}[h]
     \centering
@@ -78,16 +80,16 @@ In table \ref{tab:code}, we see the standard binary code for $P(x)$, and a modif
 \end{figure}
 \\Here, $L(x; C)$ is the \textit{codeword length} for code $C$, and we define the expected codeword length as:
 $$B(C;P) = \sum_xP(x)L(x;C)$$
-We can calculate the expected the expected codeword lengths for the codes ans distributions in table \ref{tab:code}:
+We can calculate the expected codeword lengths for the codes and distributions in table \ref{tab:code}:
 $$B(CP;P) = 2/4 + 2/4 + 2/4 + 2/4 = 2$$
 $$B(CP;Q) = 2/2 + 2/4 + 2/8 + 2/8 = 2$$
 $$B(CQ;P) = 1/4 + 2/4 + 3/4 + 3/4 = 9/4$$
 $$B(CQ;Q) = 1/2 + 2/4 + 3/8 + 3/8 = 7/4$$
 Recall that the Shannon entropy is the number of bits needed in an ideal code, thus if $B(C;P) = S[P]$, then $C$ is the ideal code for $P(x)$. We see here that using the code $CQ$ on distribution $P(x)$ is \textit{wasteful}, since it uses more bits on average than the \textit{ideal} code!\\[10pt]
-In general, assuming $C$ represents the ideal code for $P(x)$, $B(CQ; P) \geq B(CP;P)$, and likewise, $B(CP;Q) \geq B(CQ;Q)$. Essentially, \textit{no code can do better than the ideal code} (see the Kraft-MxMillan inequality)!
+In general, assuming $C$ represents the ideal code for $P(x)$, $B(CQ; P) \geq B(CP;P)$, and likewise, $B(CP;Q) \geq B(CQ;Q)$. Essentially, \textit{no code can do better than the ideal code}! (see the Kraft-McMillan inequality)
 \subsection{Unique Decodability}
 The codes in the previous section are \textbf{uniquely decodable}, in that given an encoded sequence, decoding only yields one message. These codes are also examples of \textbf{prefix codes}, which are always uniquely decodable. A prefix code is one in which no code is a prefix of another.\\[10pt]
-For example, if symbol A is encoded with "0", symbol B with "1", and symbol C with "01", the encoded message "01" could be decoded as "AB" or just "C"! This ambiguity is a result of a non-prefix code, where the code for symbol A is a prefix of the code for symbol C.
+For example, if symbol A is encoded with ``0", symbol B with ``1", and symbol C with ``01", the encoded message ``01" could be decoded as ``AB" or just ``C"! This ambiguity is a result of a non-prefix code, where the code for symbol A is a prefix of the code for symbol C.
 \subsection{Relative entropy}
 The \textbf{relative entropy} (also known as the \textbf{Kullback-leibler distance}) of two distributions $P(x)$ and $Q(x)$ is defined as:
 $$D(P||Q) = \sum_{x\in X}P(x)\log\frac{P(x)}{Q(x)} = \langle\log\frac{P(x)}{Q(x)}\rangle_p$$
@@ -118,7 +120,7 @@ $$I(x;y) = S(x) - S(x|y) = S(y) - S(y|x)$$
 Now let's take a look at a few compression schemes that attempt to encode information as efficiently as possible (though never better than the \textit{ideal code}!)
 \subsection{Binary/Unary Encoding}
 We have already seen an example of a binary encoding, which takes $\log_2(N)$ bits, where there are $N$ symbols to encode. Binary encoding is ideal if all the symbols are uniformly distributed and N is a power of 2, for example in DNA, if each base is uniformly distributed.\\[10pt]
-Unary encoding encodes each symbol as a run of 0s, followed by a delimiter 1. For example, to encode the number "123", we would output "010010001". This code is ideal if $P(x) = 2^{-x}$, or the probability distribution is geometric.
+Unary encoding encodes each symbol as a run of 0s, followed by a delimiter 1. For example, to encode the number ``123", we would output ``010010001". This code is ideal if $P(x) = 2^{-x}$, or the probability distribution is geometric.
 \subsection{Elias Gamma coding}
 Elias gamma coding combines unary and binary encoding to encode integers. First, $N = \left \lfloor{\log_2x}\right \rfloor $ is calculated, the largest power of 2 less than $x$. the encoding is then $N$ consecuative 0s, followed by the binary representation of $x$. Thus $N$ is represented by unary encoding, and the remaining $N$ \textit{bits} of $x$ are represented with binary. This coding scheme is efficient if small values are more frequent than large values, and if the largest value to be encoded is not known ahead of time.
 \subsection{Truncated binary encoding}
@@ -144,9 +146,9 @@ To retrieve the code for each symbol, we take the path from the root to the leaf
 Huffman encoding is ideal if the probabilities of each symbol is a power of 2, thus the path to a symbol is exactly $h(x)$, or the Shannon information of the symbol.\\[10pt]
 \textit{NB}: A notable file format in bioinformatics, \textbf{CRAM}, uses a combination of Huffman, Elias-gamma, and Golomb codes to encode information about reads aligned to a reference genome.
 \subsection{Run-length encoding}
-Run length encoding compresses runs of identical symbols as a single symbol with an associated count. For example, the DNA sequence "AACTTTTG" would become "A2C1T4G". This encoding is used by the \textbf{Cigar alignment format}, which is used by the SAM format. Runs of matching nucleotides in an alignment are simply encoded as \#$N$ Matches, along with runs of insertions or deletions (which can be decoded with a reference).
+Run length encoding compresses runs of identical symbols as a single symbol with an associated count. For example, the DNA sequence ``AACTTTTG" would become ``A2C1T4G". This encoding is used by the \textbf{Cigar alignment format}, which is used by the SAM format. Runs of matching nucleotides in an alignment are simply encoded as \#$N$ Matches, along with runs of insertions or deletions (which can be decoded with a reference).
 \subsection{Lempel-Ziv}
-The Lempel-Ziv scheme uses an adaptive dictionary, which initially stores characters of size one, but as the sequence is encoded, longer \textbf{motifs} or repeat string of characters, are given unique codes. In a biological context, the Lempel-Ziv method can detect DNA/RNA sequence repeats that are common in an encoded sequence. This method is used in the Unix "compress" tool.
+The Lempel-Ziv scheme uses an adaptive dictionary, which initially stores characters of size one, but as the sequence is encoded, longer \textbf{motifs} or repeat string of characters, are given unique codes. In a biological context, the Lempel-Ziv method can detect DNA/RNA sequence repeats that are common in an encoded sequence. This method is used in the Unix ``compress" tool.
 \subsection{Burrows-Wheeler}
 The Burrows-Wheeler transform converts an input sequence of characters into a new representation which can be efficiently encoded. It works by generating all the rotations of the input string, and sorting the rotated strings. The last character in each rotated string is then combined to create the transformed string.
 \begin{figure}[ht]
