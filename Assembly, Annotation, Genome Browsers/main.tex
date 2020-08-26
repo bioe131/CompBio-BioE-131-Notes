@@ -40,7 +40,7 @@ A common problem in bioinformatics is working with data from sequencing experime
 \subsection{Sequencing Technology}
 Sequence assembly can start with the reads from a few different types DNA sequencing technologies. Before understanding the computational methods of assembly and annotation, let's take a look at the various types of sequencing, and the data they produce.
 \subsubsection{Sanger Sequencing}
-In Sanger sequencing, the target sequence is replicated multiple times in the presence of ddNTPs with fluorochromes, which halt DNA replication when incorporated. With the right concentrations of target sequence and ddNTPs, the final solution should include partially replicated sequences, terminated at each position in the sequence. These sequences are then fed into a capilalry gel, which separates them by length, and a laser detects the fluorochromes at each position along the capillary, and a computer reconstructs the final sequence.\\[10pt]
+In Sanger sequencing, the target sequence is replicated multiple times in the presence of ddNTPs with fluorochromes, which halt DNA replication when incorporated. With the right concentrations of target sequence and ddNTPs, the final solution should include partially replicated sequences, terminated at each position in the sequence. These sequences are then fed into a capillary gel, which separates them by length, and a laser detects the fluorochromes at each position along the capillary, and a computer reconstructs the final sequence.\\[10pt]
 Sanger sequencing produces long reads with relatively few errors, though the throughput is slow (not ideal for full genome sequencing).
 
 \subsubsection{Next Generation Sequencing}
@@ -77,7 +77,7 @@ In these graphs, cycles represent repeats in the overall sequence, which can be 
 De Bruijn graphs are preferred for assembling short reads which are of similar size (length $k$), such as those from next generation sequencing. For short reads, it is easier to see how the reads cover the kmers of the assembly, rather than connect overlaps between sequences. Another reason is that the overall size of the graph size is not dependent on the number of reads (which is often large for short read sequencing). 
 
 \subsection{Polishing}
-Another method for assembly which is used with long-read sequencing is \textbf{polishing}. The initial step of this method uses OLC to create a rough draft of the assembly, which is then further improved. The polishing step involves aligning the long reads to the draft assembly for error correction (e.g. correcting bases in the assembly). The consenus assembly from OLC is used to resolve the overall structure of the assembly, while the polishing step resolves the details of the assembly. This step is necessary because of the noisy nature of long read sequencing, which can cause errors in the draft assembly which require polishing.
+Another method for assembly which is used with long-read sequencing is \textbf{polishing}. The initial step of this method uses OLC to create a rough draft of the assembly, which is then further improved. The polishing step involves aligning the long reads to the draft assembly for error correction (e.g. correcting bases in the assembly). The consensus assembly from OLC is used to resolve the overall structure of the assembly, while the polishing step resolves the details of the assembly. This step is necessary because of the noisy nature of long read sequencing, which can cause errors in the draft assembly which require polishing.
 
 \subsection{Evaluating an assembly}
 One method for evaluating a sequence assembly is the \textbf{N50} metric. The N50 value represents the minimum contig size threshold at which 50\% of assembled bases can be found. For example, if the N50 for an assembly is 1,000bp, then half the assembled bases can be found in contigs $\leq 1000$bp. N50 describes how fragmented an assembly is, and a \textit{larger N50 means a better assembly}. \textbf{CGAL} is another metric which represents the log-likelihood of each read in the assembly.
@@ -85,7 +85,7 @@ One method for evaluating a sequence assembly is the \textbf{N50} metric. The N5
 \section{Annotation}
 Now let's look at the problem of annotating an assembled sequence. In particular we'll explore how to identify which open reading frames (ORFs) are genes.
 \subsection{Find the ORFs}
-We can start by identifying the ORFs in the assembled sequence. Each ORF starts with a \textbf{start codon} and ends with a \textbf{stop codon}, so we can scan the sequence and identify seqeunces between a start and stop codon. However, ORFs can overlap (and the start and stop codons must be in frame). Another issue is that \textit{not all ORFs are genes!} \\[10pt]
+We can start by identifying the ORFs in the assembled sequence. Each ORF starts with a \textbf{start codon} and ends with a \textbf{stop codon}, so we can scan the sequence and identify sequences between a start and stop codon. However, ORFs can overlap (and the start and stop codons must be in frame). Another issue is that \textit{not all ORFs are genes!} \\[10pt]
 So how can we identify which ORFs are genes? One way is \textbf{homology search}, using BLAST or other tools to compare ORFs to characterized genes. But homology search can't identify novel genes, so we need a model that can classify an ORF as a gene \textit{de novo}!
 
 \subsection{Probabilistic Models}
@@ -93,7 +93,7 @@ One way to approach this problem is with a probabilistic model, in this case a \
 Once the model is trained, when given an input sequence, the output is the probability of the model generating that sequence; thus high probability ORFs are likely genes. We can compare the model to a \textbf{null model}, which is trained on non-gene ORFs, and calculate the \textbf{log odds ratio} (see the note on Pairwise alignment).
 
 \subsection{Markov Models}
-One type of model used to classify ORFs is a \textbf{Fixed-Order Markov Model}. A \textit{k-th} order markov model uses the previous $k$ nucleotides as ``context":
+One type of model used to classify ORFs is a \textbf{Fixed-Order Markov Model}. A \textit{k-th} order Markov model uses the previous $k$ nucleotides as ``context":
 \begin{figure}[h!]
     \centering
     \includegraphics[width=.6\linewidth]{order_hmm.png}
@@ -113,7 +113,7 @@ Lastly, \textbf{Interpolated Context Models} (used in Glimmer 2.0) allow \textit
 \end{figure}
 
 \subsection{HMM genefinders}
-Another class of models for identifying and annotating genes (particularly in eukaryotes) are \textbf{hidden markov models (HMMs)} (see the note on probability for more details on HMMs). HMMs can be used to identify genes by modeling introns, exons, and other structural features of gene sequences using state and emission probabilities (hidden states $\rightarrow$ features like exons/introns, emissions $\rightarrow$ nucleotide sequence).\\[10pt]
+Another class of models for identifying and annotating genes (particularly in eukaryotes) are \textbf{hidden Markov models (HMMs)} (see the note on probability for more details on HMMs). HMMs can be used to identify genes by modeling introns, exons, and other structural features of gene sequences using state and emission probabilities (hidden states $\rightarrow$ features like exons/introns, emissions $\rightarrow$ nucleotide sequence).\\[10pt]
 The first groundbreaking HMM for gene annotation was GENSCAN (Burge and Karlin, 1997), which used multiple signal detectors in single HMM to find high probability genes from sequence. Another similar model, SNAP (Korf, 2004), was developed as a trainable and parameterizable HMM for gene detection.
 \begin{figure}[h]
     \centering
@@ -144,7 +144,7 @@ Thus an overlap query is analogous to determining if a point is within this rect
     \caption{Example of overlapping intervals (left) and range of overlapping intervals (right)}
     \label{fig:interval}
 \end{figure}\\
-Another data structure that is more efficient that range trees in practice is a \textbf{Nested Containment List}. This data structure is similarly tree structured, where the each child is contained in the parent interval, while siblings have no containment relationship.\\[10pt]
+Another data structure that is more efficient that range trees in practice is a \textbf{Nested Containment List (NCList)}. This data structure is similarly tree structured, where the each child is contained in the parent interval, while siblings have no containment relationship.\\[10pt]
 Querying an NCList takes $O(\log N)$ time, while construction takes $O(N\log N)$ time. Though the asymptotic runtime is worse than range trees, in practice (in terms of magnitude of operations, etc.), nested containment lists tend to be much faster. \textit{Note}: nested containment lists are generally constructed with the idea that no intervals will be added or removed after the structure has initially been created (they are static, not dynamic, data structures).
 \subsection{Sequence Indices}
 Now let's look at methods to index a sequence and test for set membership, which, for example, can be useful for efficiently querying if a coordinate overlaps with annotations in a genomic region. We have already seen a couple of indexing methods (suffix trees and FM index [see notes on Pairwise Alignment and Information Theory]), so now we will focus on two \textbf{hash-based methods}. The important condition for both methods is that they have \textbf{\textit{good} hash functions}, which uniformly distribute hashed values and similar inputs have very different outputs. \\[10pt]
