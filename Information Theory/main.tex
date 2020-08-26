@@ -91,7 +91,7 @@ In general, assuming $C$ represents the ideal code for $P(x)$, $B(CQ; P) \geq B(
 The codes in the previous section are \textbf{uniquely decodable}, in that given an encoded sequence, decoding only yields one message. These codes are also examples of \textbf{prefix codes}, which are always uniquely decodable. A prefix code is one in which no code is a prefix of another.\\[10pt]
 For example, if symbol A is encoded with ``0", symbol B with ``1", and symbol C with ``01", the encoded message ``01" could be decoded as ``AB" or just ``C"! This ambiguity is a result of a non-prefix code, where the code for symbol A is a prefix of the code for symbol C.
 \subsection{Relative entropy}
-The \textbf{relative entropy} (also known as the \textbf{Kullback-leibler distance}) of two distributions $P(x)$ and $Q(x)$ is defined as:
+The \textbf{relative entropy} (also known as the \textbf{Kullback-Leibler distance}) of two distributions $P(x)$ and $Q(x)$ is defined as:
 $$D(P||Q) = \sum_{x\in X}P(x)\log\frac{P(x)}{Q(x)} = \langle\log\frac{P(x)}{Q(x)}\rangle_p$$
 (Note: $D(P||Q) \neq D(Q||P)$ in general). The relative entropy represents the \textit{distance} between two distributions, or the inefficiency of using the code for $P(x)$ on a sequence from $Q(x)$. Thus the relative entropy describes the relative saving (or wastage) of using a different code, and thus can be calculated using codeword lengths:
 $$D(P||Q) = B(CQ;P) - B(CP;P)$$
@@ -122,7 +122,7 @@ Now let's take a look at a few compression schemes that attempt to encode inform
 We have already seen an example of a binary encoding, which takes $\log_2(N)$ bits, where there are $N$ symbols to encode. Binary encoding is ideal if all the symbols are uniformly distributed and N is a power of 2, for example in DNA, if each base is uniformly distributed.\\[10pt]
 Unary encoding encodes each symbol as a run of 0s, followed by a delimiter 1. For example, to encode the number ``123", we would output ``010010001". This code is ideal if $P(x) = 2^{-x}$, or the probability distribution is geometric.
 \subsection{Elias Gamma coding}
-Elias gamma coding combines unary and binary encoding to encode integers. First, $N = \left \lfloor{\log_2x}\right \rfloor $ is calculated, the largest power of 2 less than $x$. the encoding is then $N$ consecuative 0s, followed by the binary representation of $x$. Thus $N$ is represented by unary encoding, and the remaining $N$ \textit{bits} of $x$ are represented with binary. This coding scheme is efficient if small values are more frequent than large values, and if the largest value to be encoded is not known ahead of time.
+Elias gamma coding combines unary and binary encoding to encode integers. First, $N = \left \lfloor{\log_2x}\right \rfloor $ is calculated, the largest power of 2 less than $x$. the encoding is then $N$ consecutive 0s, followed by the binary representation of $x$. Thus $N$ is represented by unary encoding, and the remaining $N$ \textit{bits} of $x$ are represented with binary. This coding scheme is efficient if small values are more frequent than large values, and if the largest value to be encoded is not known ahead of time.
 \subsection{Truncated binary encoding}
 Truncated binary encoding can be used for sets of symbols that are not exactly a power of 2 in size. Similar to Elias gamma, $k = \left \lfloor{\log_2x}\right \rfloor $ is first calculated. Then we set $U = 2^{k + 1} - n$. We assign the first $U$ items in the set with a $k$ length binary encoding. Then we assign the remaining items the \textit{last} $n-U$ binary encodings of size $k+1$. This ensures a \textbf{prefix code}, since the last $n-U$ binary encodings of size $k+1$ are simply the unused $k$-length ancodings, with an extra bit added at the end!
 
@@ -133,7 +133,7 @@ Huffman coding uses a binary tree to build the code for each symbol, where the s
 \begin{figure}[h]
     \centering
     \includegraphics[width = .5\linewidth]{huffman.png}
-    \caption{An example huffman tree}
+    \caption{An example Huffman tree}
     \label{fig:huffman}
 \end{figure}
 To retrieve the code for each symbol, we take the path from the root to the leaf symbol. The code length for a symbol at depth $D$ is $D$ bits, thus more frequently used symbols are placed at higher depths of the tree and use shorter codes. This way the length of the path to a symbol $X$ is roughly $h(x)$ (rounded up). A Huffman tree can be formed with a simple algorithm:
