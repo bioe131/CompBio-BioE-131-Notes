@@ -75,7 +75,7 @@ Using a multiple alignment, we can build a matrix of pairwise distances, and con
 The general idea of the algorithm is:
 \begin{enumerate}
     \item Pick the closest two nodes, and group them under an ancestral node
-    \item The distance between \textbf{ancestral nodes} is the average over the distances between all descendents
+    \item The distance between \textbf{ancestral nodes} is the average over the distances between all descendants
     \item Repeat until all nodes are included
 \end{enumerate}
 We can describe the UPGMA algorithm in pseudo-code:
@@ -117,12 +117,12 @@ $$L = \sum_u\sum_v\sum_w\sum_xL_0$$
 Since there are order $O(N)$ internal nodes in a tree, iterating through all possible states for all ancestral nodes would take $O(A^N)$ times ($A$ is the alphabet size, e.g. 4 for nucleotide sequences).\\[10pt]
 We can use dynamic programming to reduce the runtime to $O(A^2N)$! The idea is to compute the likehood of each subtree, and recursively calculate the final likelihood. This is equivalent to rearranging the likelihood sum:
 $$\sum_x P(x) \left(\sum_v P(v|x)\left(\sum_u P(u|v) \cdot P(a|u) \cdot P(b|u)\right) P(x|v) \right)\left(\sum_w P(w|x)\cdot P(d|w) \cdot P(e|w)\right)$$
-Now, each sum represents sum in parantheses represents a partial solution $P(\text{subtree} | \text{root})$.
+Now, each sum represents sum in parentheses represents a partial solution $P(\text{subtree} | \text{root})$.
 \subsubsection{Confidence estimates}
 Often phylogenies include the confidence of branches, which can be determined directly from likelihood methods (like MCMC sampling), or by \textbf{bootstrapping}. Bootstrapping involves sampling a random set of columns from the multiple alignment (\textit{with} replacement), and building a tree from just that subset of data. We can repeat this many times, and find the percent of trees which include a certain branch in their topology. 
 
 \subsubsection{Other methods}
-Other algorithms have been developed to build phylogenies from multiple alignments, which approximate likelihood methods. \textbf{Neighbor-joining} is an algorithm that extends the ideas from UPGMA, but allows for siblings to be non-equidistant from the parent. Thus, neighbor-joining methods can also produce non-ultrametric trees. \textbf{Weighted neighbor-joining} improves on normal neigbor-joining by correcting for long-branch estimation error. \textbf{Quartet-puzzling} algorithms look at sets of 4 nodes in the tree, and finds the best arrangement for each local set of 4, as opposed to comparing pairs of nodes \\[10pt]
+Other algorithms have been developed to build phylogenies from multiple alignments, which approximate likelihood methods. \textbf{Neighbor-joining} is an algorithm that extends the ideas from UPGMA, but allows for siblings to be non-equidistant from the parent. Thus, neighbor-joining methods can also produce non-ultrametric trees. \textbf{Weighted neighbor-joining} improves on normal neighbor-joining by correcting for long-branch estimation error. \textbf{Quartet-puzzling} algorithms look at sets of 4 nodes in the tree, and finds the best arrangement for each local set of 4, as opposed to comparing pairs of nodes \\[10pt]
 Lastly, \textbf{MCMC sampling} is an important algorithm for approximating the likelihood of a tree. This method stochastically generates trees from the underlying probability distribution of trees, which (after enough trees have been generated) can be used to calculate the probabilities of each tree. This method is slow, but the longer it runs, the more accurate an approximation to the maximum likelihood tree it can provide.
 
 \section{Jukes Cantor Model}
@@ -144,7 +144,7 @@ We can further simplify this equation:
 \begin{equation}
     P\left(X\left(t\right) = X\left(0\right)\right) = \frac{1}{4}\left(1 + 3\exp\left(-Rt\right)\right)
 \end{equation}
-Now let's look at a pairwise alignment of two sequences with length $L$. Assume the sequences are seperated by \textbf{evolutionary distance} $t$. If we assume that each nucleotide is independent, then we can find the \textbf{expected number of matches} $M$ (same nucleotide in both sequences at a position):
+Now let's look at a pairwise alignment of two sequences with length $L$. Assume the sequences are separated by \textbf{evolutionary distance} $t$. If we assume that each nucleotide is independent, then we can find the \textbf{expected number of matches} $M$ (same nucleotide in both sequences at a position):
 \begin{equation}
     M = L \times \frac{1}{4}\left(1 + 3\exp\left(-Rt\right)\right)
     \label{matches}

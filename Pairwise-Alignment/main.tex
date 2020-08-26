@@ -63,11 +63,18 @@ The columns in a \textbf{collinear alignment} represent the alignment of single 
 We can visualize a collinear alignment with an \textbf{alignment path graph}. The sequences to be aligned are on each axis of the graph, and the path along the graph constitutes the alignment, with diagonals representing substitutions and edges representing gaps.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=.3\linewidth]{alignment_graph.png}
+    \includegraphics[width=.2\linewidth]{alignment_graph.png}
     \caption{Example of an alignment path graph}
     \label{fig:align_graph}
 \end{figure}
-Alignments fall into two main types: \textbf{global} and \textbf{local}. Global alignments involve the entirety of both sequences (e.g. aligning two homologous proteins). Local alignments finds the best match between subsequences (e.g. aligning similar domains within two different proteins). A \textbf{semi-local} alignment is global with respect to one sequence (the \textit{query}), and local with respect to the other (the \textit{target}) (e.g. aligning a sequencing read to a reference genome). Each of these scenarios can be represented by a type of alignment graph: [INSERT TYPES OF ALIGNMENT PATH GRAPHS FOR LOCAL, GLOBAL, SEMILOCAL HERE]
+
+Alignments fall into two main types: \textbf{global} and \textbf{local}. Global alignments involve the entirety of both sequences (e.g. aligning two homologous proteins). Local alignments finds the best match between subsequences (e.g. aligning similar domains within two different proteins). A \textbf{semi-local} alignment is global with respect to one sequence (the \textit{query}), and local with respect to the other (the \textit{target}) (e.g. aligning a sequencing read to a reference genome). Each of these scenarios can be represented by a type of alignment graph: 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.8\linewidth]{Pairwise-Alignment/global_local.png}
+    \caption{Alignment path graphs for global, local, and semi-local alignments}
+    \label{fig:global}
+\end{figure}
 
 \subsection{Dotplots}
 Dotplots can be used to visualize an alignment of two sequences. The sequence is represented along an axis, and a dot at coordinate $(i,j)$ represents an alignment between the $i$th character in sequence $X$ and $j$th character in sequence $Y$.\\[10pt]
@@ -87,7 +94,7 @@ However not all substitutions are equally likely, so we should not uniformly pen
 \subsubsection{Log Odds Ratio}
 The scores in the BLOSUM62 matrix are \textbf{log odds ratio} scores, which we can define as $Q(X_i,Y_i)$:
 $$\sum_{i=1}^LQ(X_i,Y_i) = \sum_{i=1}^L\log \frac{P\left(X_i,Y_i\right)}{P\left(X_i\right)P\left(Y_i\right)} = \log\prod_{i=1}^L\frac{P\left(X_i,Y_i\right)}{P\left(X_i\right)P\left(Y_i\right)} = \log\frac{P\left(X,Y\right)}{P\left(X\right)P\left(Y\right)}$$
-The ratio of probabilities is the \textbf{odds ratio}, and by taking the log, we can find the odds ratio of a whole alignment by taking the sum. The odds ratio is the ratio of an alignment column \textit{together}, divided by the individual probabilities of each character. The log odds ratio is related to the concept of mutual information between two sequences. \\[INSERT SOMETHING ABOUT BAYESIAN INFERENCE HERE?]
+The ratio of probabilities is the \textbf{odds ratio}, and by taking the log, we can find the odds ratio of a whole alignment by taking the sum. The odds ratio is the ratio of an alignment column \textit{together}, divided by the individual probabilities of each character. The log odds ratio is related to the concept of mutual information between two sequences.
 \subsubsection{Gap Penalties}
 Finally, we can modify gap penalties to make alignments more biologically realistic. In the case of edit distances, each gap is penalized equally, however in DNA, RNA, and proteins, gaps tend to be multiple characters long, rather than small interspersed gaps. To model this, we can use an \textbf{affine gap penalty}, as opposed to a \textbf{linear} penalty, where the cost of the first gap is larger than subsequent, consecutive gaps. Thus, gaps will only be introduced into an alignment where longer stretches are required, otherwise substitutions are preferred.
 
@@ -131,7 +138,7 @@ In this new algorithm, the final solution is not $S_{L,M}$, but instead the max 
 Thus during traceback, we start at the max value in the DP table, and follow the pointers until a value points back to the start (in case (4)).
 \subsection{Gotoh algorithm}
 The Gotoh algorithm extends Smith-Waterman and Needleman-Wunsch further to include affine gap penalties. It can do both global and local alignments (just need to modify Needleman-Wunsch vs Smith-Waterman), but we will look at the global alignment version for now.\\[10pt]
-In cases (2) and (3), we need to modify the current recursion in case we are \textbf{opening} or \textbf{extending} a gap. For this, we can build 2 separate DP tables: $T_{i,j}$ representing the best alignment between $X_i$ and $Y_i$ \textit{ending in an alignment}, and $U_{i,j}$ representing the best alignment between $X_i$ and $Y_i$ \textit{ending in a gap}. Then in table $T$, we can calculate a value $U_{i,j}$ using previous values from both $T$ and $U$ depending on if we are closing a gap or not. [INCLUDE AN EQUATION?]\\[10pt]
+In cases (2) and (3), we need to modify the current recursion in case we are \textbf{opening} or \textbf{extending} a gap. For this, we can build 2 separate DP tables: $T_{i,j}$ representing the best alignment between $X_i$ and $Y_i$ \textit{ending in an alignment}, and $U_{i,j}$ representing the best alignment between $X_i$ and $Y_i$ \textit{ending in a gap}. Then in table $T$, we can calculate a value $U_{i,j}$ using previous values from both $T$ and $U$ depending on if we are closing a gap or not.\\[10pt]
 We can also think of Gotoh as a \textbf{finite state machine}, where we alternate between a $T$ and $U$ state, and we have multiple self loops. Moving from state $T$ to $U$ requires an opening gap penalty $G$, and in reverse an extension penalty $E$.
 \begin{figure}[h]
     \centering
