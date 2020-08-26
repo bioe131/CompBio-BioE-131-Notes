@@ -44,7 +44,7 @@ Along with a PDF, continuous functions also have a cumulative density function (
 $$P(x\leq a) = \int\limits_{-\inf}^ap(x)dx
 $$
 \subsection{Conditional, Joint, and Marginal}
-A \textbf{joint probability}, $P(x, y)$ between two variables $x$ and $y$, defines the distribution over the combinations of possible values for both RVs. The \textbf{marginal distribution} can be found by "summing out" an RV from the joint distribution, taking the sum over all possible values of the RV:
+A \textbf{joint probability}, $P(x, y)$ between two variables $x$ and $y$, defines the distribution over the combinations of possible values for both RVs. The \textbf{marginal distribution} can be found by ``summing out" an RV from the joint distribution, taking the sum over all possible values of the RV:
 $$P(x) = \sum_yP(x,y)$$
 $$P(y) = \sum_xP(x,y)$$
 The \textbf{conditional probability}, $P(x|y)$, is the probability of an event $x$ given that $y$ has occurred:
@@ -57,10 +57,10 @@ Joint distributions can also be continious, and the above formulas hold (just re
 Two random variables are independent if the distribution of one variable remains the same given an outcome from the other variable, or as an equation:
 $$P(x|y) = P(x) \text{ if }x,y\text{ independent}$$
 If two RVs are independent, then the joint probability $P(x,y)$ is just the product $P(x)P(y)$.\\[10pt]
-As a biological example, pick any two random positions from a genome. The nucleotide for each position is assumed to be independent, because, for example, the probability of selecting an "A" at one position does not change depending on what base is at the other position. However, selecting \textit{adjacent} nucleotides in a genome is not independent, since some pairs of nucleotides are more common than others.\\[10pt]
+As a biological example, pick any two random positions from a genome. The nucleotide for each position is assumed to be independent, because, for example, the probability of selecting an ``A" at one position does not change depending on what base is at the other position. However, selecting \textit{adjacent} nucleotides in a genome is not independent, since some pairs of nucleotides are more common than others.\\[10pt]
 If two random variables are independent and have the same probability distribution, we call them \textbf{IIDs}, or independent and identically distributed random variables. An example of a sequence of IIDs is rolling $N$ dice, or even rolling the same die $N$ times. This is also an example of a \textbf{uniform} IID, where the probability of any outcome is the same (the probability distribution is flat).
 \subsection{Expectation}
-The \textbf{expectation} of a distribution, or the expected value $E[x]$, is the sum of all the possible outcomes, weighted by their probabilites:
+The \textbf{expectation} of a distribution, or the expected value $E[x]$, is the sum of all the possible outcomes, weighted by their probabilities:
 $$E[x] = \sum_{x\in X}xP(x)$$
 The variance of the distribution can be found with the equation:
 $$V[x] = \langle x^2\rangle-(\langle x\rangle)^2$$
@@ -95,7 +95,7 @@ One very common algorithm for clustering is the K-means algorithm, which involve
 The K-means algorithm is a type of \textbf{Expectation Maximization} or \textbf{EM} algorithm. EM algorithms involves alternating between an expectation (assigning points to the nearest centroid), and maximization (calculating the centroids) steps, run until convergence. The algorithm is used to fit models of the form $P(x,y|\theta)$, where $x$ and $y$ are the hidden and observed data, and $\theta$ represents the model parameters we are trying to fit.
 
 \section{Random Processes in Biology}
-Now we will discuss a few random processes and probabilitic models used in various biological problems.
+Now we will discuss a few random processes and probabilistic models used in various biological problems.
 \subsection{Markov Process}
 \subsubsection{Formulation}
 A Markov process describes a stochastic sequence of states, where the probability of encountering a state only depends on the previous state (called the \textbf{Markov Property}). As an equation:
@@ -118,8 +118,8 @@ One example of this is the \textbf{Birth-Death process}.
     \caption{Diagram of a birth-death process}
     \label{fig:bd}
 \end{figure}
-This Markov process over the set of integers is parametrized by two rates: the birth rate ($\lambda_n$) and the death rate ($\mu_n$). At each timestep $n$, the two rates dictate the probability of a birth and death, moving between states which represnt the current population size. We can also add in the concept of immigration, which increases the population like a birth.\\[10pt]
-Birth-death processes are used in the \textbf{Unified Neutral theory of Biodiversity}, a model developed by Hubbell (2001) that describes speices diversity in ecological communities. This model uses nested birth-death processes to describe seperate mainland (slow timescale) and island (fast timescale) populations, with immigration between them, to accurately predict species distributions in ecological systems.\\[10pt]
+This Markov process over the set of integers is parametrized by two rates: the birth rate ($\lambda_n$) and the death rate ($\mu_n$). At each timestep $n$, the two rates dictate the probability of a birth and death, moving between states which represent the current population size. We can also add in the concept of immigration, which increases the population like a birth.\\[10pt]
+Birth-death processes are used in the \textbf{Unified Neutral theory of Biodiversity}, a model developed by Hubbell (2001) that describes species diversity in ecological communities. This model uses nested birth-death processes to describe separate mainland (slow timescale) and island (fast timescale) populations, with immigration between them, to accurately predict species distributions in ecological systems.\\[10pt]
 The concept of a birth-death process is also used in the \textbf{tkf91 model}. This model describes sequence evolution, including indels (insertions and deletions of bases), which is similar to the idea of immigration in a birth-death process.
 \subsubsection{Hidden Markov Models}
 Hidden Markov Models (or HMMs), are a type of Markov model, where each state also emits an observable value. HMMs can describe processes where there is an underlying hidden state, but we can only observe a sequence of \textbf{emissions}, which we can use to reconstruct the hidden states. One example of this is classifying GC-rich regions in a DNA sequence. The probability of outputting a G or C in a GC-rich region is different than in AT-rich regions, but given a DNA sequence we can't tell which positions are in GC or AT-rich regions. These region assignments are the hidden states, while the DNA sequence is the sequence of observable states.\\[10pt]
@@ -127,7 +127,7 @@ HMMs are represented by a graphical model, also called a \textbf{Bayes net} or \
 \begin{figure}
     \centering
     \includegraphics[width = .7\linewidth]{hmm.png}
-    \caption{An example hidden markov model (hmm)}
+    \caption{An example hidden Markov model (hmm)}
     \label{fig:hmm}
 \end{figure}
 Bayesian networks describe the conditional relationships between multiple random variables using a directed graph.
