@@ -189,7 +189,7 @@ Metropolis and Hastings (1953) devised a method to sample moves at a rate accord
     \item Propose a move with rate $R_0$
     \item Calculate the energy of both the current state and the proposed state
     \item If the energy improves, accept the proposed move
-    \item Otherwise, accept the move with probability $\text{exp}((E_B - E_A) / kT)$
+    \item Otherwise, accept the move with probability $\text{exp}((E_A - E_B) / kT)$
 \end{enumerate}
 This method ensures that moves to lower energy structures are always allowed, and some unfavorable moves are allowed with a probability proportional to how unfavorable the move is (the more the proposed move increases the energy state, the less likely the move is accepted). We can run this sampling algorithm for a large number of iterations and simulate the kinetics of the RNA molecule, and observe which states the molecule tends to occupy.
 \subsection{Other algorithms}
